@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback  } from "react";
 import "./Game.css"; // Import the CSS file for styling
 
 function Game() {
@@ -13,15 +13,15 @@ function Game() {
 
   // Array of compliments
   const compliments = [
-    "Ahh I see, ${userName} is a beautiful name.. I bet the person is pretty like her name..:>",
-    "${userName}, what a lovely name! I can tell you're as wonderful as your name!",
-    "Wow, ${userName} sounds like the name of someone with a heart of gold!",
-    "What a stunning name, ${userName}! I bet your smile is as bright as your name!",
-    "${userName}, such a graceful name! I can already tell you're as kind as your name!",
-    "Oh, ${userName}, that’s such a gorgeous name! I’m sure you’re a star!",
-    "${userName}, you’ve got the name of someone destined for greatness!",
-    "${userName} – a name that radiates beauty and charm!"
-  ];
+    `Ahh I see, ${userName} is a beautiful name.. I bet the person is pretty like her name..:>`,
+    `${userName}, what a lovely name! I can tell you're as wonderful as your name!`,
+    `Wow, ${userName} sounds like the name of someone with a heart of gold!`,
+    `What a stunning name, ${userName}! I bet your smile is as bright as your name!`,
+    `${userName}, such a graceful name! I can already tell you're as kind as your name!`,
+    `Oh, ${userName}, that's such a gorgeous name! I'm sure you're a star!`,
+    `${userName}, you've got the name of someone destined for greatness!`,
+    `${userName} - a name that radiates beauty and charm!`
+  ];  
 
   // Function to handle the name submission
   const handleNameSubmit = (event) => {
@@ -30,7 +30,7 @@ function Game() {
     setHasSubmittedName(true); // Set hasSubmittedName to true
     // Randomly pick a compliment and display it
     const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
-    setDialogText(randomCompliment.replace("${userName}", userName)); // Change the dialog text after name is submitted
+    setDialogText(randomCompliment.replace(`${userName}`, userName)); // Change the dialog text after name is submitted
     localStorage.setItem("userName", userName); // Save the user's name in localStorage
   };
 
@@ -50,23 +50,29 @@ function Game() {
   }, [isTextComplete, hasSubmittedName]);
 
   // Handle key press event for Enter and Esc
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event) => {
     if (event.key === "Enter" && !hasSubmittedName) {
-      setIsPopupVisible(true); // Show the popup when Enter is pressed and the name has not been submitted
-      setShowPressEnterText(false); // Hide "Press Enter" after popup is triggered
+      setIsPopupVisible(true);
+      setShowPressEnterText(false);
     }
-    handleEscPress(event); // Call handleEscPress to handle Escape key
+    handleEscPress(event);
+  }, [hasSubmittedName]);
+
+    // Function to handle "Enter" functionality via button
+  const handleEnter = () => {
+    if (!hasSubmittedName) {
+      setIsPopupVisible(true);
+      setShowPressEnterText(false);
+    }
   };
 
   // Add the event listener when the component mounts and remove it when it unmounts
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
-
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [handleKeyPress]);
 
   // Clear the userName from the state and localStorage on refresh or when the page is closed
   useEffect(() => {
@@ -110,10 +116,13 @@ function Game() {
         )}
       </div>
 
-      {/* Show "Press Enter" text at the bottom left */}
+      {/* "Press Enter" or "Tap" Prompt */}
       {showPressEnterText && !hasSubmittedName && (
         <div className="press-enter-text">
-          Press Enter to continue...
+          <p>Press Enter or Tap to continue...</p>
+          <button onClick={handleEnter} className="mobile-button">
+            Tap to Continue
+          </button>
         </div>
       )}
 
