@@ -1,0 +1,164 @@
+/* Game Container: Fullscreen Layout */
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  /* Background Image */
+  .game-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/public/background.jpg') no-repeat center center/cover;
+    z-index: -1;
+  }
+  
+  /* Content Layer */
+  .game-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  
+  /* Character Image */
+  .character-container {
+    position: absolute;
+    bottom: 80%;
+    right: 5%;
+    z-index: 1;
+  }
+  
+  .character {
+    width: 250px;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  /* Textbox Styling */
+  .textbox-container {
+    width: 60%;
+    height: 150px;
+    background-color: rgba(189, 176, 140, 0.9); /* Beige with transparency */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px 15px 0 0;
+    position: relative;
+  }
+  
+  .textbox-container:before {
+    content: '';
+    position: absolute;
+    left: 10%;
+    bottom: -20px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: rgba(189, 176, 140, 0.9) transparent transparent transparent;
+  }
+  
+  .textbox-text {
+    font-family: 'BoldenVan', Arial, sans-serif;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 3s steps(50) 4s forwards, step-end infinite;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  
+  /* Popup Styles */
+  .popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .popup-content {
+    background-color: #d0c19f; /* Beige background as per image */
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    width: 320px;
+  }
+  
+  .popup-content input {
+    font-family: 'BoldenVan', Arial, sans-serif;
+    width: 80%;
+    padding: 12px;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+  }
+  
+  .popup-content button {
+    font-family: 'BoldenVan', Arial, sans-serif;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s, border-color 0.3s;
+  }
+  
+  .popup-content button:hover {
+    background-color: #000000;
+    border-color: #000000;
+    transform: scale(1.1);
+  }
+  
+  /* "Press Enter" Text Styling */
+  .press-enter-text {
+    position: absolute;
+    /* bottom: 80%; */
+    right: 50%;
+    font-family: 'BoldenVan', Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    animation: blink 1s step-end infinite;
+  }
+  
+  @keyframes blink {
+    50% {
+      visibility: hidden;
+    }
+  }
+  
