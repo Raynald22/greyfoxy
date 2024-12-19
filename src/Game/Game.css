@@ -1,63 +1,174 @@
 /* Game Container: Fullscreen Layout */
 .game-container {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* Full viewport height */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* Background Image */
+.game-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/public/background.jpg') no-repeat center center;
+  background-size: cover; /* Ensure it covers the entire screen */
+  z-index: -1;
+}
+
+/* Content Layer */
+.game-content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
   }
-  
-  /* Background Image */
-  .game-background {
-    position: absolute;
-    top: 0;
-    left: 0;
+  to {
     width: 100%;
-    height: 100%;
-    background: url('/public/background.jpg') no-repeat center center/cover;
-    z-index: -1;
   }
-  
-  /* Content Layer */
-  .game-content {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
   }
-  
-  /* Character Image */
+}
+
+/* Popup Styles */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.popup-content {
+  background-color: #d0c19f; /* Beige background */
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.popup-content input {
+  font-family: 'BoldenVan', Arial, sans-serif;
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  font-size: 16px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+}
+
+.popup-content button {
+  font-family: 'BoldenVan', Arial, sans-serif;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s, border-color 0.3s;
+}
+
+.popup-content button:hover {
+  background-color: #000000;
+  border-color: #000000;
+  transform: scale(1.1);
+}
+
+/* "Press Enter" Text Styling */
+.press-enter-text {
+  position: absolute;
+  top: 10%; /* Move to top for mobile */
+  right: 50%;
+  transform: translateX(50%);
+  font-family: 'BoldenVan', Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  animation: blink 1s step-end infinite;
+  text-align: center;
+}
+
+.mobile-button {
+  font-family: 'BoldenVan', Arial, sans-serif;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: transparent;
+  border: 2px solid #fff;
+  cursor: pointer;
+  margin-top: 10px;
+  animation: blink 1s step-end infinite;
+}
+
+.mobile-button:hover {
+  color: #fff;
+  background-color: #000000;
+  border-color: #000000;
+  transform: scale(1.1);
+}
+
+@keyframes blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
   .character-container {
     position: absolute;
-    bottom: 80%;
-    right: 5%;
-    z-index: 1;
+    bottom: -3px; /* Position above the textbox */
+    right: 0%; /* Align to the right side of the textbox */
+    z-index: 1; /* Place above the textbox */
   }
   
   .character {
-    width: 250px;
+    width: 350px;
     height: auto;
     object-fit: cover;
   }
-  
-  /* Textbox Styling */
+
+    /* Textbox Styling */
   .textbox-container {
     width: 60%;
+    max-width: 600px;
     height: 150px;
     background-color: rgba(189, 176, 140, 0.9); /* Beige with transparency */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: left;
+    /* justify-content: center; */
     padding: 10px 20px;
     box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 15px 15px 0 0;
     position: relative;
+    margin: 0 auto;
+    margin-bottom: 20px;
   }
-  
+
   .textbox-container:before {
     content: '';
     position: absolute;
@@ -67,116 +178,98 @@
     border-style: solid;
     border-color: rgba(189, 176, 140, 0.9) transparent transparent transparent;
   }
-  
+
   .textbox-text {
     font-family: 'BoldenVan', Arial, sans-serif;
-    font-size: 20px;
+    font-size: 18px; /* Reduced font size to ensure text fits */
     color: #333;
-    text-align: center;
-    white-space: nowrap;
+    text-align: left;
+    white-space: nowrap; /* Allow wrapping */
     overflow: hidden;
     width: 0;
-    animation: typing 3s steps(50) 4s forwards, step-end infinite;
+    animation: typing 2s steps(50) 4s forwards, step-end infinite;
   }
-  
-  @keyframes typing {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
-    }
-  }
-  
-  @keyframes blink {
-    50% {
-      border-color: transparent;
-    }
-  }
-  
-  /* Popup Styles */
-  .popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
-  
-  .popup-content {
-    background-color: #d0c19f; /* Beige background as per image */
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    width: 320px;
-  }
-  
-  .popup-content input {
-    font-family: 'BoldenVan', Arial, sans-serif;
-    width: 80%;
-    padding: 12px;
-    font-size: 16px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: 2px solid #ccc;
-  }
-  
-  .popup-content button {
-    font-family: 'BoldenVan', Arial, sans-serif;
-    padding: 15px 40px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background-color: transparent;
-    border: 2px solid #fff;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.3s, border-color 0.3s;
-  }
-  
-  .popup-content button:hover {
-    background-color: #000000;
-    border-color: #000000;
-    transform: scale(1.1);
-  }
-  
-  /* "Press Enter" Text Styling */
-  .press-enter-text {
+}
+
+/* Responsive Design */
+
+/* Tablet */
+
+
+/* Mobile */
+@media (max-width: 1024px) {
+  .character-container {
     position: absolute;
-    /* bottom: 80%; */
-    right: 50%;
-    font-family: 'BoldenVan', Arial, sans-serif;
-    font-size: 16px;
-    color: #333;
-    animation: blink 1s step-end infinite;
+    bottom: -30px; /* Position above the textbox */
+    right: 1%; /* Align to the right side of the textbox */
+    z-index: 1; /* Place above the textbox */
   }
 
-  .mobile-button {
-    font-family: 'BoldenVan', Arial, sans-serif;
+  .character {
+    width: 230px; /* Smaller character for mobile */
+    bottom: 220px !important; /* Position above the textbox */
+    right: 6% !important; /* Align to the right side of the textbox */
+    z-index: 3; /* Place above the textbox */
+    height: auto;
+    object-fit: cover;
+    position: absolute;
+  }
+
+    /* Textbox Styling */
+  .textbox-container {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    background-color: rgba(189, 176, 140, 0.9); /* Beige with transparency */
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
     padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 8px;
-    background-color: transparent;
-    border: 2px solid #fff;
-    cursor: pointer;
-    margin-top: 10px;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 20px;
   }
-  .mobile-button:hover {
-    color: #fff;
-    background-color: #000000;
-    border-color: #000000;
-    transform: scale(1.1);
+
+  .textbox-container:before {
+    content: '';
+    position: absolute;
+    left: 10%;
+    bottom: -20px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: rgba(189, 176, 140, 0.9) transparent transparent transparent;
   }
-  
-  
-  @keyframes blink {
-    50% {
-      visibility: hidden;
-    }
+
+  .textbox-text {
+    font-family: 'BoldenVan', Arial, sans-serif;
+    font-size: 14px; /* Reduced font size to ensure text fits */
+    color: #333;
+    text-align: left;
+    white-space: nowrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    width: 0;
+    animation: typing 2s steps(50) 4s forwards, step-end infinite;
   }
-  
+
+  .popup-content {
+    padding: 15px;
+  }
+
+  .popup-content input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .popup-content button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .press-enter-text {
+    top: 5%; /* Further adjust for mobile view */
+    font-size: 12px;
+  }
+}
